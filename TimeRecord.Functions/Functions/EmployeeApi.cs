@@ -143,5 +143,7 @@ namespace TimeRecord.Functions.Functions
                 Result = entrys
             });
         }
+
+
     }
 }
