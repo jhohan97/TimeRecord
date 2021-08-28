@@ -75,6 +75,15 @@ namespace TimeRecord.Functions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             Employee employee = JsonConvert.DeserializeObject<Employee>(requestBody);
 
+            if (employee == null)
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    IsSuccess = false,
+                    Message = "The request must have a Type and  DateAndTime"
+                });
+            }
+
             //Validate that the Id Employee exist 
 
             TableOperation findOperation = TableOperation.Retrieve<EmployedEntity>("EmployeeRegistry", id);
@@ -89,6 +98,7 @@ namespace TimeRecord.Functions.Functions
 
             }
 
+
             //Update time of employee
             EmployedEntity employedEntity = (EmployedEntity)findResult.Result;
             if (!string.IsNullOrEmpty(employee.Type.ToString()))
@@ -96,16 +106,6 @@ namespace TimeRecord.Functions.Functions
                 employedEntity.Type = employee.Type;
                 employedEntity.DateAndTime = employee.DateAndTime;   
             }
-
-            if (string.IsNullOrEmpty(employee?.IdEmployee.ToString()))
-            {
-                return new BadRequestObjectResult(new Response
-                {
-                    IsSuccess = false,
-                    Message = "The request must have a IdEmployee, DateAndTime and Type "
-                });
-            }
-
 
             TableOperation addOperation = TableOperation.Replace(employedEntity);
             await EmployeeTable.ExecuteAsync(addOperation);
@@ -118,6 +118,29 @@ namespace TimeRecord.Functions.Functions
                 IsSuccess = true,
                 Message = message,
                 Result = employedEntity
+            });
+        }
+
+        [FunctionName(nameof(GetAllEntrys))]
+        public static async Task<IActionResult> GetAllEntrys(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "employee")] HttpRequest req,
+            [Table("Employee", Connection = "AzureWebJobsStorage")] CloudTable EmployeeTable,
+            ILogger log)
+        {
+            log.LogInformation("Get all Entrys received.");
+
+            TableQuery<EmployedEntity> query = new TableQuery<EmployedEntity>();
+            TableQuerySegment<EmployedEntity> entrys = await EmployeeTable.ExecuteQuerySegmentedAsync(query, null);
+
+
+            string message = "Retrived all entrys";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                IsSuccess = true,
+                Message = message,
+                Result = entrys
             });
         }
     }
