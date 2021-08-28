@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecord.Common", "TimeRecord.Common\TimeRecord.Common.csproj", "{7CF11A06-9622-4CBF-B3D3-ED9DE54186F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeRecord.Common", "TimeRecord.Common\TimeRecord.Common.csproj", "{7CF11A06-9622-4CBF-B3D3-ED9DE54186F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecord.Functions", "TimeRecord.Functions\TimeRecord.Functions.csproj", "{64F40EB6-1AE6-4DA6-9E8F-4F7FFB0DCB31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeRecord.Functions", "TimeRecord.Functions\TimeRecord.Functions.csproj", "{64F40EB6-1AE6-4DA6-9E8F-4F7FFB0DCB31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecord.Tests", "TimeRecord.Tests\TimeRecord.Tests.csproj", "{E7937A0D-5C58-439E-9679-AC54AE3092C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeRecord.Tests", "TimeRecord.Tests\TimeRecord.Tests.csproj", "{E7937A0D-5C58-439E-9679-AC54AE3092C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
