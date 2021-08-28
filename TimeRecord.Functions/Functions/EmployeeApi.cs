@@ -62,7 +62,6 @@ namespace TimeRecord.Functions.Functions
             });
         }
 
-
         [FunctionName(nameof(UpdateEntry))]
         public static async Task<IActionResult> UpdateEntry(
             [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "employee/{id}")] HttpRequest req,
@@ -144,6 +143,67 @@ namespace TimeRecord.Functions.Functions
             });
         }
 
+        [FunctionName(nameof(GetEntryById))]
+        public static IActionResult GetEntryById(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "employee/{id}")] HttpRequest req,
+            [Table("Employee", "EmployeeRegistry", "{id}", Connection = "AzureWebJobsStorage")] TableEntity EmployeeEntity,
+            string id,
+            ILogger log)
+        {
+            log.LogInformation($"Get Entry by Id:{id} received.");
 
+            if (EmployeeEntity == null)
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    IsSuccess = false,
+                    Message = "Employee not found."
+                });
+
+            }
+
+            string message = $"Entry: {EmployeeEntity.RowKey} Retrived.";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                IsSuccess = true,
+                Message = message,
+                Result = EmployeeEntity
+            });
+        }
+
+        [FunctionName(nameof(DeleteEntry))]
+        public static async Task<IActionResult> DeleteEntry(
+           [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "employee/{id}")] HttpRequest req,
+           [Table("Employee", "EmployeeRegistry", "{id}", Connection = "AzureWebJobsStorage")] TableEntity EmployeeEntity,
+           [Table("Employee", Connection = "AzureWebJobsStorage")] CloudTable EmployeeTable,
+           string id,
+           ILogger log)
+        {
+            log.LogInformation($"Delete Entry by Id:{id} received.");
+
+            if (EmployeeEntity == null)
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    IsSuccess = false,
+                    Message = "Employee not found."
+                });
+
+            }
+
+            await EmployeeTable.ExecuteAsync(TableOperation.Delete(EmployeeEntity));
+
+            string message = $"Entry: {EmployeeEntity.RowKey} deleted.";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                IsSuccess = true,
+                Message = message,
+                Result = EmployeeEntity
+            });
+        }
     }
 }
