@@ -205,5 +205,28 @@ namespace TimeRecord.Functions.Functions
                 Result = EmployeeEntity
             });
         }
+
+        [FunctionName(nameof(GetAllConsolidates))]
+        public static async Task<IActionResult> GetAllConsolidates(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "consolidate")] HttpRequest req,
+            [Table("Consolidate", Connection = "AzureWebJobsStorage")] CloudTable ConsolidateTable,
+            ILogger log)
+        {
+            log.LogInformation("Get all Entrys received.");
+
+            TableQuery<ConsolidatedEntity> query = new TableQuery<ConsolidatedEntity>();
+            TableQuerySegment<ConsolidatedEntity> entrys = await ConsolidateTable.ExecuteQuerySegmentedAsync(query, null);
+
+
+            string message = "Retrived all entrys";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                IsSuccess = true,
+                Message = message,
+                Result = entrys
+            });
+        }
     }
 }
