@@ -34,7 +34,7 @@ namespace TimeRecord.Tests.Helpers
             return new DefaultHttpRequest(new DefaultHttpContext())
             {
                 Body = GenerateStreamFromString(request),
-                Path = $"{EmployeeId}"
+                Path = $"/{EmployeeId}"
             };
         }
 
@@ -64,10 +64,10 @@ namespace TimeRecord.Tests.Helpers
         {
             return new Employee
             {
-                Consolidated = false,
+                IdEmployee = 999999,
                 DateAndTime = DateTime.UtcNow,
-                IdEmployee = 2,
-                Type = 0
+                Type = 0,
+                Consolidated = false
             };
         }
 
