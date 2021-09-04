@@ -22,7 +22,7 @@ namespace TimeRecord.Functions.Functions
             [Table("Consolidate", Connection = "AzureWebJobsStorage")] CloudTable ConsolidateTable,
             ILogger log)
         {
-            log.LogInformation($"Deleting completed function executed at: {DateTime.Now}");
+            log.LogInformation($"Consolidated completed function executed at: {DateTime.Now}");
             string filter1 = TableQuery.GenerateFilterConditionForBool("Consolidated", QueryComparisons.Equal, false);
             string filter2 = TableQuery.GenerateFilterConditionForInt("Type", QueryComparisons.Equal, 0);
             string filter3 = TableQuery.GenerateFilterConditionForInt("Type", QueryComparisons.Equal, 1);
@@ -42,7 +42,7 @@ namespace TimeRecord.Functions.Functions
                         ConsolidatedEntity consolidateEntity = new ConsolidatedEntity
                         {
                             IdEmployee = item.IdEmployee,
-                            TimeWorked = Convert.ToInt32((item2.DateAndTime - item.DateAndTime).TotalHours),
+                            TimeWorked = Convert.ToInt32((item2.DateAndTime - item.DateAndTime).TotalMinutes),
                             Date = item2.DateAndTime,
                             RowKey = Guid.NewGuid().ToString(),
                             PartitionKey = "Consolidate",

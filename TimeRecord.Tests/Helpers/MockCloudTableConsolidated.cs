@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace TimeRecord.Tests.Helpers
 {
-    public class MockCloudTableEmployees : CloudTable
+    internal class MockCloudTableConsolidated : CloudTable
     {
-        public MockCloudTableEmployees(Uri tableAddress) : base(tableAddress)
+
+        public MockCloudTableConsolidated(Uri tableAddress) : base(tableAddress)
         {
         }
 
-        public MockCloudTableEmployees(Uri tableAbsoluteUri, StorageCredentials credentials) : base(tableAbsoluteUri, credentials)
+        public MockCloudTableConsolidated(Uri tableAbsoluteUri, StorageCredentials credentials) : base(tableAbsoluteUri, credentials)
         {
         }
 
-        public MockCloudTableEmployees(StorageUri tableAddress, StorageCredentials credentials) : base(tableAddress, credentials)
+        public MockCloudTableConsolidated(StorageUri tableAddress, StorageCredentials credentials) : base(tableAddress, credentials)
         {
         }
 
